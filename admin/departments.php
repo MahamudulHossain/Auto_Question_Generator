@@ -1,5 +1,22 @@
 <?php 
 include('top.php');
+
+if(isset($_GET['did']) && $_GET['did']>0){
+    $did=get_safe_value($_GET['did']);
+    mysqli_query($con,"Delete from departments where id='$did'");
+    redirect('departments.php');
+}
+
+if(isset($_POST['submit'])){
+    $dept_name = get_safe_value($_POST['dept_name']);
+    if(isset($_GET['eid']) && $_GET['eid']>0){
+        $eid=get_safe_value($_GET['eid']);
+        mysqli_query($con,"update departments set dept_name='$dept_name' where id='$eid'");
+    }else{
+        mysqli_query($con,"insert into departments(dept_name) values('$dept_name')");
+    }
+    redirect('departments.php');
+}
 ?>
                 
                  <div class="row">
@@ -18,7 +35,10 @@ include('top.php');
                                 </div>
                             </div>
                             <div class="p-4">
-                            <table class="table">
+                                    <?php 
+                                        $res = mysqli_query($con,"select * from departments");
+                                        if(mysqli_num_rows($res)>0){?>
+                                            <table class="table">
                                 <thead class="thead-dark text-white">
                                     <tr>
                                         <th scope="col">SL</th>
@@ -27,54 +47,23 @@ include('top.php');
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php
+                                            $i=1;
+                                            while($row=mysqli_fetch_assoc($res)){
+                                    ?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Computer Science and Engineering</td>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $row['dept_name']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
+                                            <a href="?eid=<?php echo $row['id']?>"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                            <a href="?did=<?php echo $row['id']?>"><button type="button" class="btn btn-danger text-white">Delete</button></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Mathematics</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Environmental Sciences</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Chemistry</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Statistics</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Geological Sciences</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
+                                <?php $i++;
+                            }
+                                    }else{ ?>
+                                    <h2>No Data Found</h2>
+                                 <?php } ?>   
                                 </tbody>
                             </table>
                            </div> 
@@ -83,23 +72,25 @@ include('top.php');
                     <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Department Name</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <input type="text" class="form-control fwb" id="sem_name" placeholder="Enter Department Name" required="required">
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                              </div>
-                            </div>
+                            <form method="POST">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Department Name</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input type="text" class="form-control fwb" name="dept_name" placeholder="Enter Department Name" required="required">
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" name="submit" value="Save">
+                                  </div>
+                                </div>
+                            </form>    
                           </div>
                         </div>
-                     <!-- Modal -->
+                     <!-- Modal -->                 
 
 <?php include('footer.php'); ?>
