@@ -1,0 +1,16 @@
+.fw{
+	font-weight: bold;
+	font-size: 25px;
+}
+.band{
+	background-color: black;
+	padding: 15px;
+	color: white;
+	text-align: center;
+}
+.fr{
+	float: right;
+}
+.fwb{
+	font-weight: bold;
+}
