@@ -9,8 +9,8 @@ if(isset($_GET['did']) && $_GET['did']>0){
 
 if(isset($_POST['submit'])){
     $dept_name = get_safe_value($_POST['dept_name']);
-    if(isset($_GET['eid']) && $_GET['eid']>0){
-        $eid=get_safe_value($_GET['eid']);
+    $eid = get_safe_value($_POST['eid']);
+    if($eid > 0){
         mysqli_query($con,"update departments set dept_name='$dept_name' where id='$eid'");
     }else{
         mysqli_query($con,"insert into departments(dept_name) values('$dept_name')");
@@ -55,7 +55,7 @@ if(isset($_POST['submit'])){
                                         <td><?php echo $i ?></td>
                                         <td><?php echo $row['dept_name']?></td>
                                         <td>
-                                            <a href="?eid=<?php echo $row['id']?>"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" onclick="editModal('<?php echo $row['id']?>')">Edit</button>
                                             <a href="?did=<?php echo $row['id']?>"><button type="button" class="btn btn-danger text-white">Delete</button></a>
                                         </td>
                                     </tr>
@@ -81,8 +81,9 @@ if(isset($_POST['submit'])){
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <input type="text" class="form-control fwb" name="dept_name" placeholder="Enter Department Name" required="required">
+                                    <input type="text" class="form-control fwb" name="dept_name" placeholder="Enter Department Name" required="required" id="dept_name">
                                   </div>
+                                    <input type="hidden" name="eid" id="eid">
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <input type="submit" class="btn btn-primary" name="submit" value="Save">
@@ -91,6 +92,23 @@ if(isset($_POST['submit'])){
                             </form>    
                           </div>
                         </div>
-                     <!-- Modal -->                 
+                     <!-- Modal -->    
+
+    <script type="text/javascript">
+        function editModal(id){
+            var eid = id;
+            $.ajax({
+                url : "editDeptData.php",
+                type : "POST",
+                data : "editID= "+eid,
+                success : function(result){
+                    var data = jQuery.parseJSON(result);
+                    //console.log(data.dept_name);
+                    $("#dept_name").val(data.dept_name);
+                    $("#eid").val(data.id);
+                }
+            });
+        }
+    </script>                              
 
 <?php include('footer.php'); ?>
