@@ -1,4 +1,25 @@
-<?php include('top.php'); ?>
+<?php 
+include('top.php');
+
+if(isset($_GET['did']) && $_GET['did']>0){
+    $did=get_safe_value($_GET['did']);
+    mysqli_query($con,"Delete from subjects where id='$did'");
+    redirect('subjects.php');
+}
+
+if(isset($_POST['submit'])){
+    $sub_name  = get_safe_value($_POST['sub_name']);
+    $dep_name  = get_safe_value($_POST['dep_name']);
+    $sem_name  = get_safe_value($_POST['sem_name']);
+    $eid = get_safe_value($_POST['eid']);
+    if($eid > 0){
+        mysqli_query($con,"update semesters set sem_name ='$sem_name ' where id='$eid'");
+    }else{
+        mysqli_query($con,"insert into subjects(sub_name,dept_id,sem_id) values('$sub_name','$dep_name','$sem_name')");
+    }
+    redirect('subjects.php');
+}
+ ?>
                 
                  <div class="row">
                     <div class="col-12">
@@ -16,6 +37,9 @@
                                 </div>
                             </div>
                             <div class="p-4">
+                            <?php 
+                                $res = mysqli_query($con,"select subjects.*,departments.dept_name as depName,semesters.sem_name as semName from subjects,departments,semesters where subjects.dept_id = departments.id and subjects.sem_id = semesters.id order by subjects.id desc");
+                                        if(mysqli_num_rows($res)>0){?>
                             <table class="table">
                                 <thead class="thead-dark text-white">
                                     <tr>
@@ -27,46 +51,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php
+                                            $i=1;
+                                            while($row=mysqli_fetch_assoc($res)){
+                                    ?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Data Structure</td>
-                                        <td>Computer Science and Engineering</td>
-                                        <td>First Semester</td>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $row['sub_name']?></td>
+                                        <td><?php echo $row['depName']?></td>
+                                        <td><?php echo $row['semName']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" onclick="editModal('<?php echo $row['id']?>')">Edit</button>
+                                            <a href="?did=<?php echo $row['id']?>"><button type="button" class="btn btn-danger text-white">Delete</button></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Discrete Mathematics</td>
-                                        <td>Computer Science and Engineering</td>
-                                        <td>Second Semester</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Abstract Algebra</td>
-                                        <td>Mathematics</td>
-                                        <td>First Semester</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Probability Distributions</td>
-                                        <td>Statistics</td>
-                                        <td>Third Semester</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-danger text-white">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php $i++;
+                            }
+                                    }else{ ?>
+                                    <h2>No Data Found</h2>
+                                 <?php } ?>
                                 </tbody>
                             </table>
                            </div> 
@@ -75,46 +78,70 @@
                     <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Subjects Name</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <input type="text" class="form-control fwb" id="sem_name" placeholder="Enter Subject Name" required="required">
-                                <div class="form-group row mt-3">
-                                    <div class="col-12">
-                                        <select class="select2 form-select shadow-none fwb"
-                                            style="width: 100%; height:36px;" required="required">
-                                            <option>Select Department</option>
-                                            <option value="AK">Computer Science and Engineering</option>
-                                            <option value="HI">Mathematics</option>
-                                            <option value="ES">Environmental Sciences</option>
-                                            <option value="SS">Statistics</option>
-                                        </select>
+                            <form method="POST">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Subjects Name</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input type="text" class="form-control fwb" name="sub_name" placeholder="Enter Subject Name" required="required" id="sub_name">
+                                    <div class="form-group row mt-3">
+                                        <div class="col-12">
+                                            <select class="select2 form-select shadow-none fwb"
+                                                style="width: 100%; height:36px;" required="required" name="dep_name">
+                                                <option value="">Select Department</option>
+                                            <?php 
+                                            $res1 = mysqli_query($con,"select * from departments");
+                                            while($dept = mysqli_fetch_assoc($res1)){
+                                            ?>
+                                                <option value="<?php echo $dept['id']?>"><?php echo $dept['dept_name']?></option>
+                                            <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row mt-3">
-                                    <div class="col-12">
-                                        <select class="select2 form-select shadow-none fwb"
-                                            style="width: 100%; height:36px;" required="required">
-                                            <option>Select Semester</option>
-                                            <option value="AK">First Semester</option>
-                                            <option value="HI">Second Semester</option>
-                                            <option value="ES">Third Semester</option>
-                                            <option value="SS">Fourth Semester</option>
-                                        </select>
+                                    <div class="form-group row mt-3">
+                                        <div class="col-12">
+                                            <select class="select2 form-select shadow-none fwb"
+                                                style="width: 100%; height:36px;" required="required" name="sem_name">
+                                                <option value="">Select Semester</option>
+                                            <?php 
+                                            $res2 = mysqli_query($con,"select * from semesters order by id asc");
+                                            while($sem = mysqli_fetch_assoc($res2)){
+                                            ?>
+                                                <option value="<?php echo $sem['id']?>"><?php echo $sem['sem_name']?></option>
+                                            <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <input type="hidden" name="eid" id="eid">
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" name="submit" value="Save">
+                                  </div>
                                 </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                              </div>
-                            </div>
+                            </form>
                           </div>
                         </div>
                      <!-- Modal -->
+
+    <script type="text/javascript">
+        function editModal(id){
+            var eid = id;
+            $.ajax({
+                url : "editSubData.php",
+                type : "POST",
+                data : "editID= "+eid,
+                success : function(result){
+                    var data = jQuery.parseJSON(result);
+                    //console.log(data.sub_name);
+                    $("#sub_name").val(data.sub_name);
+                    $("#eid").val(eid);
+                }
+            });
+        }
+    </script> 
 <?php include('footer.php'); ?>
