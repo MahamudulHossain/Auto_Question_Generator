@@ -12,13 +12,12 @@ if(isset($_POST['submit'])){
     $dep_name  = get_safe_value($_POST['dep_name']);
     $sem_name  = get_safe_value($_POST['sem_name']);
     $eid = get_safe_value($_POST['eid']);
-    if($eid > 0){
-        mysqli_query($con,"update semesters set sem_name ='$sem_name ' where id='$eid'");
-    }else{
-        mysqli_query($con,"insert into subjects(sub_name,dept_id,sem_id) values('$sub_name','$dep_name','$sem_name')");
-    }
+    
+    mysqli_query($con,"insert into subjects(sub_name,dept_id,sem_id) values('$sub_name','$dep_name','$sem_name')");
     redirect('subjects.php');
 }
+
+
  ?>
                 
                  <div class="row">
@@ -61,7 +60,7 @@ if(isset($_POST['submit'])){
                                         <td><?php echo $row['depName']?></td>
                                         <td><?php echo $row['semName']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" onclick="editModal('<?php echo $row['id']?>')">Edit</button>
+                                            <a href="editSubject.php?eid=<?php echo $row['id'] ?>"><button type="button" class="btn btn-info" id="edit_btn">Edit</button>
                                             <a href="?did=<?php echo $row['id']?>"><button type="button" class="btn btn-danger text-white">Delete</button></a>
                                         </td>
                                     </tr>
@@ -116,7 +115,6 @@ if(isset($_POST['submit'])){
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="eid" id="eid">
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -128,6 +126,7 @@ if(isset($_POST['submit'])){
                         </div>
                      <!-- Modal -->
 
+                    
     <script type="text/javascript">
         function editModal(id){
             var eid = id;
@@ -143,5 +142,6 @@ if(isset($_POST['submit'])){
                 }
             });
         }
+
     </script> 
 <?php include('footer.php'); ?>
