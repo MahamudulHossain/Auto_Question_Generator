@@ -1,6 +1,6 @@
 <?php
 
-  session_start();
+ session_start();
   include('database.inc.php');
   include('function.inc.php');
   include('constant.inc.php');
@@ -16,17 +16,16 @@
   $page_title='';
   if($cur_path=='' || $cur_path=='index.php'){
       $page_title='Dashboard';
-  }elseif($cur_path=='departments.php'){
-      $page_title='Manage Departments';
-  }elseif($cur_path=='semester.php'){
-      $page_title='Manage Semesters';
-  }elseif($cur_path=='subjects.php'){
-      $page_title='Manage Subjects';
-  }elseif($cur_path=='setters.php'){
-      $page_title='Manage Question setters';
-  }elseif($cur_path=='retrievers.php'){
-      $page_title='Manage Question retrievers';
-  }    
+  }elseif($cur_path=='add_chapter.php' || $cur_path=='all_chapter.php'){
+      $page_title='Manage Chapters';
+  }elseif($cur_path=='add_question.php' || $cur_path=='all_question.php'){
+      $page_title='Manage Questions';
+  }elseif($cur_path=='single_question.php'){
+      $page_title='Generate Single Question';
+  }elseif($cur_path=='multi_question.php'){
+      $page_title='Generate Multi Question';
+  }
+     
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,20 +75,20 @@
                   </li>
                   <li><a><i class="fa fa-cog"></i> Chapters <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="add_chapter.html">Add Chapter</a></li>
-                      <li><a href="all_chapter.html">All Chapter</a></li>
+                      <li><a href="add_chapter.php">Add Chapter</a></li>
+                      <li><a href="all_chapter.php">All Chapter</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-cubes"></i> Questions <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="add_question.html">Add Question</a></li>
-                      <li><a href="all_question.html">All Questions</a></li>
+                      <li><a href="add_question.php">Add Question</a></li>
+                      <li><a href="all_question.php">All Questions</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-creative-commons"></i> Questions Generator <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="single_question.html">Single Chapter Question</a></li>
-                      <li><a href="multi_question.html">Multi Chapter Question</a></li>
+                      <li><a href="single_question.php">Single Chapter Question</a></li>
+                      <li><a href="multi_question.php">Multi Chapter Question</a></li>
                     </ul>
                   </li>
                 </ul>
