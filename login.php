@@ -11,14 +11,14 @@ session_start();
     $user_password = md5($_POST['user_password']);
     $user_role = get_safe_value($_POST['user_role']);
 
-    $check = mysqli_query($con,"select user_email,user_role from register");
+    $check = mysqli_query($con,"select user_email,user_role from users");
     while($row = mysqli_fetch_assoc($check)){
       if($row['user_email'] == $user_email && $row['user_role'] == $user_role){
         $msg = "This Email is already registered";
       }
     }
     if($msg == ""){
-      mysqli_query($con,"insert into register(user_name,user_email,user_password,user_role) values('$user_name','$user_email','$user_password','$user_role') ");
+      mysqli_query($con,"insert into users(user_name,user_email,user_password,user_role) values('$user_name','$user_email','$user_password','$user_role') ");
       $msg = "Registration successful. Please wait for the admin approval";
     }
     
@@ -30,7 +30,7 @@ session_start();
     $password = md5($_POST['password']);
     $role = get_safe_value($_POST['role']);
 
-    $check = mysqli_query($con,"select * from register where user_email='$email' and user_password = '$password' and status = 1");
+    $check = mysqli_query($con,"select * from users where user_email='$email' and user_password = '$password' and status = 1");
    
       if(mysqli_num_rows($check)>0){
         $row=mysqli_fetch_assoc($check);
