@@ -1,6 +1,7 @@
 <?php 
   include('top.php');
 
+
   if(isset($_POST['submit'])){
     $dept_id = get_safe_value($_POST['dept_id']);
     $sem_id = get_safe_value($_POST['sem_id']);
@@ -73,7 +74,7 @@
 <script type="text/javascript">
 
   
-    function loadData(type, firstID, secondID){
+    function loadData(type, firstID, secondID, eid, dept_id, sem_id, sub_id){
       $.ajax({
         url : "chapter_add.php",
         type : "POST",

@@ -18,8 +18,8 @@
 	}else{
 		$res = mysqli_query($con,"select * from departments");
 		while($row = mysqli_fetch_assoc($res)){
-			$str .= "<option value='{$row['id']}'>{$row['dept_name']}</option>";
-		}
+				$str .= "<option value='{$row['id']}'>{$row['dept_name']}</option>";
+			}
 	}
 	
 
