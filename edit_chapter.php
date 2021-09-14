@@ -1,25 +1,28 @@
 <?php 
   include('top.php');
 
+  if(isset($_GET['id']) && $_GET['id'] > 0){
+    $edit_id = get_safe_value($_GET['id']);
+    $dept_id = get_safe_value($_GET['dept_id']);
+    $sem_id = get_safe_value($_GET['sem_id']);
+    $sub_id = get_safe_value($_GET['sub_id']);
 
-  if(isset($_POST['submit'])){
-    $dept_id = get_safe_value($_POST['dept_id']);
-    $sem_id = get_safe_value($_POST['sem_id']);
-    $sub_id = get_safe_value($_POST['sub_id']);
-    $chap_name = get_safe_value($_POST['chap_name']);
-
-    $res = mysqli_query($con,"insert into chapters(dept_id,sem_id,sub_id,chap_name) values('$dept_id','$sem_id','$sub_id','$chap_name') ");
+    $row = mysqli_fetch_assoc(mysqli_query($con,"select chapters.*,departments.dept_name as deptNM,semesters.sem_name as semNM,subjects.sub_name as subNM from chapters,departments,semesters,subjects where chapters.dept_id=departments.id and chapters.sem_id=semesters.id and chapters.sub_id=subjects.id and chapters.id = '$edit_id' "));
+  }else{
     redirect('all_chapter.php');
-
   }
+
 ?>
-                <div class="top_pad">
-                  Add Chapter
-                </div>
+    <div id="editID" style="display: none;">
+    <?php
+      $output = $edit_id;
+        echo htmlspecialchars($output);
+    ?>
+    </div>
 
                 <div class="x_panel">
                 <div class="x_title">
-                  <h2>Add New Chapter</h2>
+                  <h2>Edit Chapter</h2>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -56,7 +59,7 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align">chapter Name<span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 ">
-                        <input type="text" class="form-control" name="chap_name" required="required">
+                        <input type="text" class="form-control" name="chap_name" required="required" id="chap_id">
                       </div>
                     </div>
 
@@ -73,35 +76,34 @@
 
 <script type="text/javascript">
 
-  
-    function loadData(type, firstID, secondID){
+  //Converting php value into js value
+  var editVal = <?php echo json_encode($edit_id, JSON_HEX_TAG); ?>;
+  var deptVal = <?php echo json_encode($dept_id, JSON_HEX_TAG); ?>;
+  var semVal = <?php echo json_encode($sem_id, JSON_HEX_TAG); ?>;
+  var subVal = <?php echo json_encode($sub_id, JSON_HEX_TAG); ?>;
+
+  /*  id=7&dept_id=3&sem_id=5&sub_id=3 */
+    function loadData(type, editVal, deptVal, semVal, subVal){
       $.ajax({
-        url : "chapter_add.php",
+        url : "chapter_edit.php",
         type : "POST",
-        data : {type : type, fast_id : firstID, second_id : secondID},
+        data : {type : type, editVal : editVal, deptVal : deptVal, semVal : semVal, subVal : subVal},
+        dataType: 'json', // As we will get json data from chapter_edit.php
         success : function(result){
-          if(type == "semester"){
-            $("#sem_id").html(result);
-          }else if(type == "subject"){
-            $("#sub_id").html(result);
-          }else{
-            $("#dept_id").append(result);
+          var data = result;
+          if(type == "pageLoad"){
+            $("#dept_id").append(data.deptStr);
+            $("#sem_id").html(data.semStr);
+            $("#sub_id").html(data.subStr);
+            $("#chap_id").val(data.chapStr.chap_name);
           }
+          
         }
       });
     }
 
-  loadData();
+  loadData("pageLoad",editVal,deptVal,semVal,subVal);
 
-  $("#dept_id").on("change",function(){
-    loadData("semester");
-  });
-
-  $("#sem_id").on("change",function(){
-    var deptID = $("#dept_id").val();
-    var semID = $("#sem_id").val();
-    loadData("subject",deptID,semID);
-  });
 </script>
 
 <?php include('footer.php');?>

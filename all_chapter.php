@@ -39,7 +39,7 @@
                               <td><?php echo $row['subNM']?></td>
                               <td><?php echo $row['chap_name']?></td>
                               <td>
-                                  <a href="?id=<?php echo $row['id']?>&dept_id=<?php echo $row['dept_id']?>&sem_id=<?php echo $row['sem_id']?>&sub_id=<?php echo $row['sub_id']?>"><button class="btn btn-primary btn-sm">Edit</button></a>
+                                  <a href="edit_chapter.php?id=<?php echo $row['id']?>&dept_id=<?php echo $row['dept_id']?>&sem_id=<?php echo $row['sem_id']?>&sub_id=<?php echo $row['sub_id']?>"><button class="btn btn-primary btn-sm">Edit</button></a>
                                   <a href="?did=<?php echo $row['id']?>"><button class="btn btn-danger btn-sm">Delete</button></a>
                               </td>
                             </tr>
