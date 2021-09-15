@@ -12,6 +12,16 @@
     redirect('all_chapter.php');
   }
 
+  if(isset($_POST['save'])){
+    $editDeptId = get_safe_value($_POST['editDeptId']);
+    $editSemId = get_safe_value($_POST['editSemId']);
+    $editSubId = get_safe_value($_POST['editSubId']);
+    $editChapName = get_safe_value($_POST['editChapName']);
+
+    $res = mysqli_query($con,"update chapters set dept_id = '$editDeptId', sem_id  ='$editSemId', sub_id = '$editSubId', chap_name = '$editChapName' where id = '$edit_id' ");
+    redirect('all_chapter.php');
+  }
+
 ?>
     <div id="editID" style="display: none;">
     <?php
@@ -32,7 +42,7 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align">Department<span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 ">
-                        <select class="form-control" name="dept_id" required="required" id="dept_id">
+                        <select class="form-control" name="editDeptId" required="required" id="dept_id">
                           <option value="">Choose Department</option>
                         </select>
                       </div>
@@ -42,7 +52,7 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align">Semester<span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 ">
-                        <select class="form-control" id="sem_id" name="sem_id" required="required">
+                        <select class="form-control" id="sem_id" name="editSemId" required="required">
                         </select>
                       </div>
                     </div>
@@ -51,7 +61,7 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align">Subject<span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 ">
-                        <select class="form-control" id="sub_id" name="sub_id" required="required"></select>
+                        <select class="form-control" id="sub_id" name="editSubId" required="required"></select>
                       </div>
                     </div>
 
@@ -59,14 +69,13 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align">chapter Name<span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 ">
-                        <input type="text" class="form-control" name="chap_name" required="required" id="chap_id">
+                        <input type="text" class="form-control" name="editChapName" required="required" id="chap_id">
                       </div>
                     </div>
 
                     <div class="item form-group">
                       <div class="col-md-6 col-sm-6 offset-md-3">
-                        <button class="btn btn-primary" type="reset">Reset</button>
-                        <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-success" name="save">Save</button>
                       </div>
                     </div>
 
@@ -82,7 +91,7 @@
   var semVal = <?php echo json_encode($sem_id, JSON_HEX_TAG); ?>;
   var subVal = <?php echo json_encode($sub_id, JSON_HEX_TAG); ?>;
 
-  /*  id=7&dept_id=3&sem_id=5&sub_id=3 */
+  /*  Retrieving Data */
     function loadData(type, editVal, deptVal, semVal, subVal){
       $.ajax({
         url : "chapter_edit.php",
@@ -103,6 +112,38 @@
     }
 
   loadData("pageLoad",editVal,deptVal,semVal,subVal);
+
+
+  /*changing Data*/
+
+  function newLoadData(newtype, deptID, semID){
+      $.ajax({
+        url : "newEditChapter.php",
+        type : "POST",
+        data : {newtype : newtype, deptID : deptID, semID : semID},
+        success : function(result){
+          console.log(result);
+          if(newtype == "semester"){
+            $("#sem_id").html(result);
+          }else if(newtype == "subject"){
+            $("#sub_id").html(result);
+          }
+        }
+      });
+    }
+
+
+  $("#dept_id").on("change",function(){
+    $("#sem_id").html("");
+    $("#sub_id").html("");
+    newLoadData("semester");
+  });
+
+  $("#sem_id").on("change",function(){
+    var deptID = $("#dept_id").val();
+    var semID = $("#sem_id").val();
+    newLoadData("subject",deptID,semID);
+  });
 
 </script>
 

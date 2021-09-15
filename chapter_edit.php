@@ -5,7 +5,7 @@
 	$semStr = "";
 	$subStr = "";
 	$chapStr = "";
-
+	$str = "";
 	if($_POST['type'] == "pageLoad"){
 		$depRes = mysqli_query($con,"select * from departments");
 			while($depRow = mysqli_fetch_assoc($depRes)){
@@ -16,7 +16,7 @@
 				}
 			}
 
-		$semRes = mysqli_query($con,"select * from semesters");
+		$semRes = mysqli_query($con,"select * from semesters order by id asc");
 			while($semRow = mysqli_fetch_assoc($semRes)){
 				if($semRow['id'] == $_POST['semVal']){
 					$semStr .= "<option value='{$semRow['id']}' selected>{$semRow['sem_name']}</option>";
@@ -37,9 +37,9 @@
 		$chapRes = mysqli_query($con,"select chap_name from chapters where dept_id ={$_POST['deptVal']} and sem_id = {$_POST['semVal']} and sub_id = {$_POST['subVal']}");
 			$chapStr = mysqli_fetch_assoc($chapRes);
 			
+		
 	}
 	
 	echo json_encode(array("deptStr" => $deptStr, "semStr" => $semStr, "subStr" => $subStr, "chapStr" => $chapStr));
-
 
 ?>

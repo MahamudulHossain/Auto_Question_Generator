@@ -4,7 +4,7 @@
 	$str = "";
 
 	if($_POST['type'] == "semester"){
-		$res = mysqli_query($con,"select * from semesters");
+		$res = mysqli_query($con,"select * from semesters order by id asc");
 		$str = "<option value=''>Choose Semester</option>";
 		while($row = mysqli_fetch_assoc($res)){
 			$str .= "<option value='{$row['id']}'>{$row['sem_name']}</option>";
