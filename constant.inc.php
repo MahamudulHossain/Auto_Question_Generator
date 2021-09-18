@@ -1,9 +1,11 @@
 <?php
-//define('SITE_NAME','Food Ordering Admin');
-//define('FRONT_SITE_NAME','Food Ordering');
-//define('SERVER_IMAGE',$_SERVER['DOCUMENT_ROOT']."/php/food_ordering/");
+ // define("SITE_NAME","Amar Dokan");
 
+  define("SERVER_PATH",$_SERVER['DOCUMENT_ROOT']."/auto_Question_Generator/");
+  define("SERVER_IMAGE_PATH",SERVER_PATH."images/diagrams/");
 
-//define('SITE_PATH',"http://localhost/php/food_ordering/");
+  //define("SITE_PATH",'http://localhost/php_project/php/');
+  //define("SITE_IMAGE_PATH",SITE_PATH.'images/products/');
 
+  date_default_timezone_set("Asia/Dhaka");
 ?>

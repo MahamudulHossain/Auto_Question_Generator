@@ -1,4 +1,35 @@
-<?php include('top.php');?>
+<?php 
+  include('top.php');
+  $img_error="";
+  if(isset($_POST['submit'])){
+    $dept_id = get_safe_value($_POST['dept_id']);
+    $sem_id = get_safe_value($_POST['sem_id']);
+    $sub_id = get_safe_value($_POST['sub_id']);
+    $chap_id = get_safe_value($_POST['chap_id']);
+    $lvl_id = get_safe_value($_POST['lvl_id']);
+    $question = $_POST['question'];
+    $type= $_FILES['image']['type'];
+    if($type != null){
+      if($type !="image/jpeg" && $type !="image/png"){
+          $img_error="Invalid Image Format(Choose jpeg/png)";
+        }else{
+          $image = rand(11111111,9999999)."_".$_FILES['image']['name'];
+          move_uploaded_file($_FILES['image']['tmp_name'],SERVER_IMAGE_PATH.$image);
+          $sql = "insert into questions(dept_id,sem_id,sub_id,chap_id,lvl_id,question,img) values('$dept_id','$sem_id','$sub_id','$chap_id','$lvl_id','$question','$image')";
+          if(mysqli_query($con,$sql)){
+            redirect('all_question.php');
+          }
+        }
+    }else{
+          $image = "Null";
+          move_uploaded_file($_FILES['image']['tmp_name'],SERVER_IMAGE_PATH.$image);
+          $sql = "insert into questions(dept_id,sem_id,sub_id,chap_id,lvl_id,question,img) values('$dept_id','$sem_id','$sub_id','$chap_id','$lvl_id','$question','$image')";
+          if(mysqli_query($con,$sql)){
+            redirect('all_question.php');
+          }
+      }
+  }
+?>
 
                 <div class="top_pad add_ques">
                   Add Question
@@ -11,7 +42,7 @@
                 </div>
                 <div class="x_content">
                   <br>
-                  <form action="" method="POST">
+                  <form action="" method="POST"  enctype="multipart/form-data">
                     <div class="item form-group">
                         <div class="col-md-6">
                           <label class="col-form-label col-md-3 col-sm-3 label-align">Department<span class="required">*</span>
@@ -64,6 +95,21 @@
                           </select>
                           </div>
                         </div>
+                    </div>
+                    <div class="item form-group">
+                        <div>
+                          <label class="col-form-label col-md-3 col-sm-3 label-align">Question<span class="required">*</span>
+                          </label>
+                          <div class="col-md-9 col-sm-9 ">
+                          <textarea class="form-control" name="question"  rows="4" cols="100" placeholder="Add your question here" required="required"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align">Image
+                          </label>
+                        <input type="file" class="form-control" placeholder="Image" name="image">
+                             <div class="error mt8"><?php echo $img_error?></div>
+                      </div>
                     </div>
 
                     <div class="text-right">
