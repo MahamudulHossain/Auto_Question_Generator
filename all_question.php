@@ -6,84 +6,56 @@
                 <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_content">
-                    <div class="item form-group">
-                        <div class="col-md-4">
-                          <label class="col-form-label col-md-3 col-sm-3 label-align">Department<span class="required">*</span>
-                          </label>
-                          <div class="col-md-9 col-sm-9 ">
-                          <select class="form-control">
-                            <option>Choose Department</option>
-                            <option>Computer Science and Engineering</option>
-                            <option>Mathematics</option>
-                            <option>Chemistry</option>
-                          </select>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="col-form-label col-md-3 col-sm-3 label-align">Semester<span class="required">*</span>
-                          </label>
-                          <div class="col-md-9 col-sm-9 ">
-                          <select class="form-control">
-                            <option>Choose Semester</option>
-                            <option>First</option>
-                            <option>Second</option>
-                          </select>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="col-form-label col-md-3 col-sm-3 label-align">Subject<span class="required">*</span>
-                          </label>
-                          <div class="col-md-9 col-sm-9 ">
-                          <select class="form-control">
-                            <option>Choose Subject</option>
-                            <option>Computer Science and Engineering</option>
-                            <option>Mathematics</option>
-                            <option>Chemistry</option>
-                          </select>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                      <table id="datatable" class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            <th class="column-title">Question </th>
-                            <th class="column-title">Level </th>
-                            <th class="column-title no-link last"><span class="nobr">Action</span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                              <td>Define algorithm. Write an algorithm to evaluate a polynomial using Hornor's rule</td>
-                              <td>Hard</td>
-                              <td>
-                                  <button class="btn btn-primary btn-sm">Edit</button>
-                                  <button class="btn btn-danger btn-sm">Delete</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Devise an algorithm that inputs three integers and outputs them in increasing order</td>
-                              <td>Medium</td>
-                              <td>
-                                  <button class="btn btn-primary btn-sm">Edit</button>
-                                  <button class="btn btn-danger btn-sm">Delete</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Present an algoritm that searches an unsorted array a[1 : n]</td>
-                              <td>Medium</td>
-                              <td>
-                                  <button class="btn btn-primary btn-sm">Edit</button>
-                                  <button class="btn btn-danger btn-sm">Delete</button>
-                              </td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </div>
-              
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                      <?php 
+                        $res = mysqli_query($con,"select questions.*,departments.dept_name as deptNM,semesters.sem_name as semNM,subjects.sub_name as subNM,chapters.chap_name as chapNM from questions,departments,semesters,subjects,chapters where questions.dept_id=departments.id and questions.sem_id=semesters.id and questions.sub_id=subjects.id and questions.chap_id=chapters.id order by questions.id desc");
+                        if(mysqli_num_rows($res) > 0){
+                        ?>
+                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                      <?php ?>
+                      <thead>
+                        <tr>
+                          <th width="25%">Question</th>
+                          <th width="10%">Department</th>
+                          <th width="10%">Semester</th>
+                          <th width="10%">Subject</th>
+                          <th width="10%">Chapter</th>
+                          <th width="17%">Diagram</th>
+                          <th width="18%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <?php while($row = mysqli_fetch_assoc($res)){?>
+                        <tr>
+                          <td><?php echo $row['question']?></td>
+                          <td><?php echo $row['deptNM']?></td>
+                          <td><?php echo $row['semNM']?></td>
+                          <td><?php echo $row['subNM']?></td>
+                          <td><?php echo $row['chapNM']?></td>
+                          <td>
+                            <?php if($row['img'] == "Null"){?>
+                              No Diagram Available
+                            <?php }else{?>
+                            <a target="_blank" href="<?php echo SITE_IMAGE_PATH.$row['img'];?>"><img src="<?php echo SITE_IMAGE_PATH.$row['img'];?>" width="150px" height="100px">
+                            <?php } ?>  
+                          </td>
+                          <td>
+                                  <a href=""><button class="btn btn-primary btn-sm">Edit</button></a>
+                                  <a href=""><button class="btn btn-danger btn-sm">Delete</button></a>
+                          </td>
+                        </tr>
+                       <?php } ?> 
+                      </tbody>
+                    </table>
+                  <?php }else{?>
+                    <h3>No Data Founnd</h3>
+                   <?php } ?> 
                   </div>
+                  </div>
+              </div>
+            </div>
                 </div>
               </div>
                 
