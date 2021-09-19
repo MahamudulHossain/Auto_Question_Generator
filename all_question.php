@@ -42,14 +42,14 @@
                           <td><?php echo $row['subNM']?></td>
                           <td><?php echo $row['chapNM']?></td>
                           <td>
-                            <?php if($row['img'] == "Null"){?>
+                            <?php if(gettype($row['img']) == 'NULL'){?>
                               No Diagram Available
                             <?php }else{?>
                             <a target="_blank" href="<?php echo SITE_IMAGE_PATH.$row['img'];?>"><img src="<?php echo SITE_IMAGE_PATH.$row['img'];?>" width="150px" height="100px">
                             <?php } ?>  
                           </td>
                           <td>
-                                  <a href=""><button class="btn btn-primary btn-sm">Edit</button></a>
+                                  <a href="edit_question.php?id=<?php echo $row['id']?>"><button class="btn btn-primary btn-sm">Edit</button></a>
                                   <a href="?did=<?php echo $row['id']?>"><button class="btn btn-danger btn-sm">Delete</button></a>
                           </td>
                         </tr>

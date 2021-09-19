@@ -21,9 +21,8 @@
           }
         }
     }else{
-          $image = "Null";
           move_uploaded_file($_FILES['image']['tmp_name'],SERVER_IMAGE_PATH.$image);
-          $sql = "insert into questions(dept_id,sem_id,sub_id,chap_id,lvl_id,question,img) values('$dept_id','$sem_id','$sub_id','$chap_id','$lvl_id','$question','$image')";
+          $sql = "insert into questions(dept_id,sem_id,sub_id,chap_id,lvl_id,question) values('$dept_id','$sem_id','$sub_id','$chap_id','$lvl_id','$question')";
           if(mysqli_query($con,$sql)){
             redirect('all_question.php');
           }

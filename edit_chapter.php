@@ -23,12 +23,6 @@
   }
 
 ?>
-    <div id="editID" style="display: none;">
-    <?php
-      $output = $edit_id;
-        echo htmlspecialchars($output);
-    ?>
-    </div>
 
                 <div class="x_panel">
                 <div class="x_title">
