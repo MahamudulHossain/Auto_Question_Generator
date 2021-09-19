@@ -42,7 +42,7 @@
                           <td><?php echo $row['subNM']?></td>
                           <td><?php echo $row['chapNM']?></td>
                           <td>
-                            <?php if(gettype($row['img']) == 'NULL'){?>
+                            <?php if($row['img'] == 'No Image'){?>
                               No Diagram Available
                             <?php }else{?>
                             <a target="_blank" href="<?php echo SITE_IMAGE_PATH.$row['img'];?>"><img src="<?php echo SITE_IMAGE_PATH.$row['img'];?>" width="150px" height="100px">
