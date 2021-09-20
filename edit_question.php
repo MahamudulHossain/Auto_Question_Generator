@@ -37,6 +37,13 @@
             redirect('all_question.php');
           }
         }
+    }else{
+        $image = "No Image";
+          //move_uploaded_file($_FILES['image']['tmp_name'],SERVER_IMAGE_PATH.$image);
+          $sql = "update questions set dept_id = '$dept_id', sem_id  ='$sem_id', sub_id = '$sub_id', chap_id = '$chap_id', lvl_id = '$lvl_id', question = '$question', img = '$image' where id = '$edit_id' ";
+          if(mysqli_query($con,$sql)){
+            redirect('all_question.php');
+          }
     }
   }
 ?>
@@ -190,6 +197,47 @@
     }
 
   loadData("pageLoad",editVal,deptVal,semVal,subVal,chapVal);
+
+  /*changing Data*/
+
+  function newLoadData(newtype, deptID, semID, subID){
+      $.ajax({
+        url : "newEditQuestion.php",
+        type : "POST",
+        data : {newtype : newtype, deptID : deptID, semID : semID, subID : subID},
+        success : function(result){
+          //console.log(result);
+          if(newtype == "semester"){
+            $("#sem_id").html(result);
+          }else if(newtype == "subject"){
+            $("#sub_id").html(result);
+          }else if(newtype == "chapter"){
+            $("#chap_id").html(result);
+          }
+        }
+      });
+    }
+
+
+  $("#dept_id").on("change",function(){
+    $("#sem_id").html("");
+    $("#sub_id").html("");
+    $("#chap_id").html("");
+    newLoadData("semester");
+  });
+
+  $("#sem_id").on("change",function(){
+    var deptID = $("#dept_id").val();
+    var semID = $("#sem_id").val();
+    newLoadData("subject",deptID,semID);
+  });
+
+  $("#sub_id").on("change",function(){
+    var deptID = $("#dept_id").val();
+    var semID = $("#sem_id").val();
+    var subID = $("#sub_id").val();
+    newLoadData("chapter",deptID,semID,subID);
+  });
   
 </script>             
 

@@ -116,7 +116,7 @@
         type : "POST",
         data : {newtype : newtype, deptID : deptID, semID : semID},
         success : function(result){
-          console.log(result);
+          //console.log(result);
           if(newtype == "semester"){
             $("#sem_id").html(result);
           }else if(newtype == "subject"){
