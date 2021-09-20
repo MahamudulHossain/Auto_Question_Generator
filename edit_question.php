@@ -123,7 +123,11 @@
                           <?php if($row['img'] == 'No Image'){?>
                           <div><h3>No Diagram Selected</h3></div>
                         <?php }else{?>
-                          <div style="margin-top: 10px;"><a target="_blank" href="<?php echo SITE_IMAGE_PATH.$row['img'];?>"><img src="<?php echo SITE_IMAGE_PATH.$row['img'];?>" width="300px" height="150px"></div>
+                          <div id="imgShow">
+                            <div style="margin-top: 10px;"><a target="_blank" href="<?php echo SITE_IMAGE_PATH.$row['img'];?>"><img src="<?php echo SITE_IMAGE_PATH.$row['img'];?>" width="300px" height="150px">
+                            </div>
+                            <div><button class="btn btn-danger" id="deleteImg">Delete</button></div>
+                          </div>
                           <?php } ?>  
                              <div class="error mt8"><?php echo $img_error?></div>
                       </div>
@@ -140,6 +144,23 @@
 
 
 <script type="text/javascript">
+
+  $("#deleteImg").on('click',function(e){
+    e.preventDefault();
+    var editVal = <?php echo json_encode($edit_id, JSON_HEX_TAG); ?>;
+    $.ajax({
+      url : 'deleteImg.php',
+      type : "POST",
+      data : {dImId : editVal},
+      dataType : 'json',
+      success : function(result){
+          var data = result;
+          if(data.msg == 'success'){
+            $("#imgShow").html('<div><h3>No Diagram Selected</h3></div>');
+          }
+      }
+    });
+  });
 
   //Converting php value into js value
   var editVal = <?php echo json_encode($edit_id, JSON_HEX_TAG); ?>;
