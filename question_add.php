@@ -27,9 +27,5 @@
 				$str .= "<option value='{$row['id']}'>{$row['dept_name']}</option>";
 			}
 	}
-	
-
 	echo $str;
-
-
 ?>
