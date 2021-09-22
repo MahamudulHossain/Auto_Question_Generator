@@ -48,11 +48,13 @@
 				for($k=0;$k<4;$k++){
 					$html.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c. ". $arr[$ques[0][$k]]['question']."<br><br>";
 					if($arr[$ques[0][$k]]['img'] != "No Image"){
-						$html.="<img src='http://localhost/auto_Question_Generator/images/diagrams/".$arr[$ques[0][$k]]['img']."' width='150px' height='100px'> <br><br>";
+						//$html.="<div style='margin-left: 200px;padding:5px;'><img src='http://localhost/auto_Question_Generator/images/diagrams/".$arr[$ques[0][$k]]['img']."' width='200px' height='100px'></div> <br><br>";
+						$html.="<div style='margin-left: 200px;padding:5px;'><img src='".SITE_IMAGE_PATH."".$arr[$ques[0][$k]]['img']."' width='200px' height='100px'></div> <br><br>";
+						
 					}
 					$c++;
 				}
-				$html.="<br>";
+				$html.="<br><br>";
 			}
 
 			$html.="</body></html>";
