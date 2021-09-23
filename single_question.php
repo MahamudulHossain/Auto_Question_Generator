@@ -56,28 +56,47 @@
                         </div>
                     </div>
                     <div class="item form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                           <label class="col-form-label col-md-3 col-sm-3 label-align">Exam Name<span class="required">*</span>
                           </label>
                           <div class="col-md-9 col-sm-9 ">
                             <input type="text" id="exam_nm" class="form-control" name="exam_name" required="required" placeholder="1st class test">
                           </div>
                         </div>
-                        <div class="col-md-3">
-                          <label class="col-form-label col-md-3 col-sm-3 label-align">Total Set<span class="required">*</span>
+                        <div class="col-md-6">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align">Exam Time<span class="required">*</span>
                           </label>
                           <div class="col-md-9 col-sm-9 ">
-                          <select class="form-control" required="required" name="ques_set">
-                            <option value="">Choose Number of Set</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                            <option value="4">Four</option>
-                            <option value="5">Five</option>
-                          </select>
+                            <input type="text" class="form-control" name="exam_time" required="required" placeholder="1 hour 30 minutes">
                           </div>
                         </div>
-                        <div class="col-md-3">
+                    </div>  
+                    <div class="item form-group"> 
+                      <div class="col-md-6">
+                        <div class="col-md-6">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align">Total Set<span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 ">
+                            <select class="form-control" required="required" name="ques_set">
+                              <option value="">Choose Number of Set</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                              <option value="4">Four</option>
+                              <option value="5">Five</option>
+                            </select>
+                            </div>
+                          </div> 
+                          <div class="col-md-6">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align">Total Mark<span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 ">
+                              <input type="text" id="exam_mark" class="form-control" name="exam_mark" required="required">
+                            </div>
+                          </div>
+                         </div> 
+                      <div class="col-md-6">
+                        <div >
                           <label class="col-form-label col-md-3 col-sm-3 label-align">Level<span class="required">*</span>
                           </label>
                           <div class="col-md-9 col-sm-9">
@@ -90,13 +109,7 @@
                           </select>
                           </div>
                         </div>
-                        <div class="col-md-3">
-                          <label class="col-form-label col-md-3 col-sm-3 label-align">Exam Time<span class="required">*</span>
-                          </label>
-                          <div class="col-md-9 col-sm-9 ">
-                            <input type="text" class="form-control" name="exam_time" required="required" placeholder="1 hour 30 minutes">
-                          </div>
-                        </div>
+                       </div> 
                     </div>
 
                      <div class="text-right">
