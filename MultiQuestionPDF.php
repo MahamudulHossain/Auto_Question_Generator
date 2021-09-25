@@ -13,7 +13,14 @@
 		$ques_set = $_POST['ques_set'];
 		$lvl_id = $_POST['lvl_id'];
 		$exam_time = $_POST['exam_time'];
+		$exam_mark = $_POST['exam_mark'];
+		$setsToAns = $exam_mark/20;
 		//echo $chap_ids['1'];
+
+		$count = count($chap_ids);
+		if($count < $ques_set){
+		    $chap_ids = array_merge($chap_ids,array_reverse($chap_ids));
+		  }
 
 		$res = mysqli_query($con,"select question from questions where dept_id='{$dept_id}' and sem_id='{$sem_id}' and sub_id='{$sub_id}' ");
 		$dep = mysqli_query($con,"select * from departments where id='{$dept_id}' ");
@@ -22,7 +29,6 @@
 		$semRow = mysqli_fetch_assoc($sem);
 		$sub = mysqli_query($con,"select * from subjects where id='{$sub_id}' ");
 		$subRow = mysqli_fetch_assoc($sub);
-		$totalMarks = $ques_set*10;
 
 		$html = "<html>
 			<head><title>Automatic Question Generator</title></head>
@@ -33,7 +39,7 @@
 						Semester: ". $semRow['sem_name']."<br>
 						Subject: ". $subRow['sub_name']."
 				</div>";
-		$html.="<table width='100%'><tr><td>Marks: ". $totalMarks."</td><td align='right'>Time: ". $exam_time."</td></tr></table><hr>";		
+		$html.="<table width='100%'><tr><td>Marks: ". $exam_mark."</td><td align='right'>Time: ". $exam_time."</td></tr></table><hr><br><div style='text-align:center;'>[N.B. Answer any 0".$setsToAns." set/s. All questions contain same marks]</div>";		
 
 			if(mysqli_num_rows($res)){
 				for($i=0;$i<count($chap_ids);$i++){

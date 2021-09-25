@@ -23,7 +23,7 @@
 		$semRow = mysqli_fetch_assoc($sem);
 		$sub = mysqli_query($con,"select * from subjects where id='{$sub_id}' ");
 		$subRow = mysqli_fetch_assoc($sub);
-		$setsToAns = $exam_mark/10;
+		$setsToAns = $exam_mark/20;
 
 		$html = "<html>
 			<head><title>Automatic Question Generator</title></head>

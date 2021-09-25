@@ -73,7 +73,7 @@
                     </div>  
                     <div class="item form-group"> 
                       <div class="col-md-6">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <label class="col-form-label col-md-3 col-sm-3 label-align">Total Set<span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 ">
@@ -87,7 +87,7 @@
                             </select>
                             </div>
                           </div> 
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             <label class="col-form-label col-md-3 col-sm-3 label-align">Total Mark<span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 ">
@@ -96,7 +96,7 @@
                           </div>
                          </div> 
                       <div class="col-md-6">
-                        <div >
+                        <div>
                           <label class="col-form-label col-md-3 col-sm-3 label-align">Level<span class="required">*</span>
                           </label>
                           <div class="col-md-9 col-sm-9">
