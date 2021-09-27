@@ -10,7 +10,7 @@ session_start();
     $user_email = get_safe_value($_POST['user_email']);
     $user_password = md5($_POST['user_password']);
     $user_role = get_safe_value($_POST['user_role']);
-
+    $added = date('Y-m-d');
     $check = mysqli_query($con,"select user_email,user_role from users");
     while($row = mysqli_fetch_assoc($check)){
       if($row['user_email'] == $user_email && $row['user_role'] == $user_role){
@@ -18,7 +18,7 @@ session_start();
       }
     }
     if($msg == ""){
-      mysqli_query($con,"insert into users(user_name,user_email,user_password,user_role) values('$user_name','$user_email','$user_password','$user_role') ");
+      mysqli_query($con,"insert into users(user_name,user_email,user_password,user_role,time) values('$user_name','$user_email','$user_password','$user_role','$added') ");
       $msg = "Registration successful. Please wait for the admin approval";
     }
     
