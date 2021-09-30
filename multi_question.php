@@ -1,4 +1,9 @@
-<?php include('top.php');?>
+<?php 
+  include('top.php');
+  if($_SESSION['USER_ROLE'] != 'retriever' ){
+      redirect('index.php');
+   }
+?>
 
                 <div class="top_pad multi_chap">
                   Multi Chapter Question Generation 

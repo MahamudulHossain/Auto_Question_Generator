@@ -97,12 +97,14 @@
                       <li><a href="all_question.php">All Questions</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-creative-commons"></i> Questions Generator <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="single_question.php">Single Chapter Question</a></li>
-                      <li><a href="multi_question.php">Multi Chapter Question</a></li>
-                    </ul>
-                  </li>
+                  <?php if($_SESSION['USER_ROLE'] == 'retriever'){?>
+                    <li><a><i class="fa fa-creative-commons"></i> Questions Generator <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="single_question.php">Single Chapter Question</a></li>
+                        <li><a href="multi_question.php">Multi Chapter Question</a></li>
+                      </ul>
+                    </li>
+                  <?php } ?>
                 </ul>
               </div>
 
@@ -124,12 +126,6 @@
                     <?php echo $_SESSION['USER_NAME'] ?>
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item"  href="javascript:;"> Profile</a>
-                      <a class="dropdown-item"  href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                  <a class="dropdown-item"  href="javascript:;">Help</a>
                     <a class="dropdown-item"  href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                   </div>
                 </li>

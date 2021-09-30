@@ -1,5 +1,8 @@
 <?php 
    include('top.php');
+   if($_SESSION['USER_ROLE'] != 'retriever' ){
+      redirect('index.php');
+   }
 ?>
 
                 <div class="top_pad single_chap">

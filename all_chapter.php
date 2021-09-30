@@ -14,7 +14,7 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <?php
-                          $res = mysqli_query($con,"select chapters.*,departments.dept_name as deptNM,semesters.sem_name as semNM,subjects.sub_name as subNM from chapters,departments,semesters,subjects where chapters.dept_id=departments.id and chapters.sem_id=semesters.id and chapters.sub_id=subjects.id");
+                          $res = mysqli_query($con,"select chapters.*,departments.dept_name as deptNM,semesters.sem_name as semNM,subjects.sub_name as subNM from chapters,departments,semesters,subjects where chapters.dept_id=departments.id and chapters.sem_id=semesters.id and chapters.sub_id=subjects.id order by chapters.id desc");
                           if(mysqli_num_rows($res) > 0){
                         ?>
                     <div class="table-responsive">

@@ -5008,8 +5008,8 @@ ul.notifications {
   margin-left: 100px;
 }
 .reg_msg{
-  font-size: 15px;
-  color: Blue;
+  font-size: 20px;
+  color: red;
   font-weight: bold;
 }
 .error{

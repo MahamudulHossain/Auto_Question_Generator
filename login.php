@@ -30,12 +30,13 @@ session_start();
     $password = md5($_POST['password']);
     $role = get_safe_value($_POST['role']);
 
-    $check = mysqli_query($con,"select * from users where user_email='$email' and user_password = '$password' and status = 1");
+    $check = mysqli_query($con,"select * from users where user_email='$email' and user_password = '$password' and user_role = '$role' and status = 1");
    
       if(mysqli_num_rows($check)>0){
         $row=mysqli_fetch_assoc($check);
         $_SESSION['IS_LOGIN']='yes';
         $_SESSION['USER_NAME']=$row['user_name'];
+        $_SESSION['USER_ROLE']=$row['user_role'];
         redirect('index.php');
     }else{
         $login_msg="Please enter valid login details";
@@ -77,8 +78,7 @@ session_start();
       <a class="hiddenanchor" id="signin"></a>
       <div class="mt-5">
             <h1><center>WELCOME TO THE QUESTION GENERATOR SYSTEM</center></h1>
-          </div>
-
+      </div>
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
@@ -147,9 +147,7 @@ session_start();
                 <p class="change_link">Already a member ?
                   <a href="#signin" class="to_register"> Log in </a>
                 </p>
-                <div>
-                  <h3 class="reg_msg"><?php echo $msg; ?></h3>
-                </div>
+                <h3 class="reg_msg"><?php echo $msg; ?></h3>
                 <div class="clearfix"></div>
                 <br />
               </div>
