@@ -21,7 +21,7 @@ session_start();
       mysqli_query($con,"insert into users(user_name,user_email,user_password,user_role,time) values('$user_name','$user_email','$user_password','$user_role','$added') ");
       $msg = "Registration successful. Please wait for the admin approval";
     }
-    
+
   }
 
 
@@ -31,7 +31,7 @@ session_start();
     $role = get_safe_value($_POST['role']);
 
     $check = mysqli_query($con,"select * from users where user_email='$email' and user_password = '$password' and user_role = '$role' and status = 1");
-   
+
       if(mysqli_num_rows($check)>0){
         $row=mysqli_fetch_assoc($check);
         $_SESSION['IS_LOGIN']='yes';
@@ -99,6 +99,7 @@ session_start();
               </div>
               <div class="regBtn">
                 <input type="submit" name="login" value="Log in" class="btn btn-primary">
+                <a class="reset_pass" href="lostPass.php">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
