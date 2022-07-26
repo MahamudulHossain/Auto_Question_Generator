@@ -9,7 +9,7 @@
   $curArr=explode('/',$curStr);
   $cur_path=$curArr[count($curArr)-1];
 
-  if(!isset($_SESSION['IS_LOGIN'])){
+  if(!isset($_SESSION['USER_ROLE'])){
     redirect('login.php');
   }
 
